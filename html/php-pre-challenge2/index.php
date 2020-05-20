@@ -2,8 +2,9 @@
 $array = explode(',', $_GET['array']);
 
 // 修正はここから
-for ($i = 0; $i < count($array); $i++) {
-    for ($j = 1; $j < count($array); $j++) {
+$elements = count($array);
+for ($i = 0; $i < $elements; $i++) {
+    for ($j = 1; $j < $elements; $j++) {
         if ($array[$i] > $array[$i + $j] && $array[$i + $j] !== null) {
             $replacement = $array[$i];
             $array[$i] = $array[$i + $j];
