@@ -6,6 +6,7 @@ for ($i = 0; $i < count($array); $i++) {
   if ($array[$i] > $array[$i + 1] && $array[$i + 1] !== null) {
     $replacement = $array[$i];
     $array[$i] = $array[$i + 1];
+    $array[$i + 1] = $replacement;
   }
 }
 // 修正はここまで
