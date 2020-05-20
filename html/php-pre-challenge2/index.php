@@ -3,10 +3,12 @@ $array = explode(',', $_GET['array']);
 
 // 修正はここから
 for ($i = 0; $i < count($array); $i++) {
-  if ($array[$i] > $array[$i + 1] && $array[$i + 1] !== null) {
-    $replacement = $array[$i];
-    $array[$i] = $array[$i + 1];
-    $array[$i + 1] = $replacement;
+  for ($j = 1; $j < count($array); $j++) {
+    if ($array[$i] > $array[$i + $j] && $array[$i + $j] !== null) {
+      $replacement = $array[$i];
+      $array[$i] = $array[$i + $j];
+      $array[$i + $j] = $replacement;
+    }
   }
 }
 // 修正はここまで
