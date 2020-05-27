@@ -10,3 +10,9 @@ if (!ctype_digit($limit) || $limit === '0') {
 $dsn = 'mysql:dbname=test;host=mysql';
 $dbuser = 'test';
 $dbpassword = 'test';
+
+try {
+    $db = new PDO($dsn . ';charset=utf8', $dbuser, $dbpassword);
+} catch (PDOException $exception) {
+    echo 'DB接続エラー: ' . $exception->getMessage();
+}
