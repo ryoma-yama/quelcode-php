@@ -30,6 +30,7 @@ $limitInt += $limit;
 
 // n個から2個を選ぶ組み合わせとの比較をする
 $length = count($recordInt);
+$arrTest2 = [];
 for ($i = 0; $i < $length - 1; $i++) {
     for ($j = 1; $j < $length - $i; $j++) {
         $test = $recordInt[$i] + $recordInt[$i + $j];
