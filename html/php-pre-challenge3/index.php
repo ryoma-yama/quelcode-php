@@ -40,3 +40,6 @@ for ($i = 0; $i < $length - 1; $i++) {
         }
     }
 }
+
+// 結果をjsonで出力する
+echo json_encode($arrTest2);
