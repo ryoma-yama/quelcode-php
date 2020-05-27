@@ -11,8 +11,13 @@ $dsn = 'mysql:dbname=test;host=mysql';
 $dbuser = 'test';
 $dbpassword = 'test';
 
+// DBと接続する
 try {
     $db = new PDO($dsn . ';charset=utf8', $dbuser, $dbpassword);
 } catch (PDOException $exception) {
     echo 'DB接続エラー: ' . $exception->getMessage();
 }
+
+// DBから値を取得する
+$records = $db->query('SELECT value FROM prechallenge3');
+$record = $records->fetchAll(PDO::FETCH_COLUMN, "value");
