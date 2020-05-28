@@ -77,3 +77,6 @@ foreach ($resultSet[0] as $subArray) {
 
 // 結果をjsonで出力する
 echo json_encode($output);
+
+// 参考先は下記です
+// https://stabucky.com/wp/archives/2188
