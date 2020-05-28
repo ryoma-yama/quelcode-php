@@ -15,7 +15,8 @@ $dbpassword = 'test';
 try {
     $db = new PDO($dsn . ';charset=utf8', $dbuser, $dbpassword);
 } catch (PDOException $exception) {
-    echo 'DB接続エラー: ' . $exception->getMessage();
+    http_response_code(500);
+    exit();
 }
 
 // DBから値を取得する
