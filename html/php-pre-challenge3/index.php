@@ -59,7 +59,10 @@ for ($i = 1; $i < $length + 1; $i++) {
     $chosen = $i;
     $resultSet[] = combinations($array, $chosen);
 }
-
+// 比較のために全組み合わせを一つの配列に統合する
+for ($i = 0; $i < $length - 1; $i++) {
+    $resultSet[0] = array_merge($resultSet[0], $resultSet[$i + 1]);
+}
 
 // 結果をjsonで出力する
 echo json_encode($arrTest2);
