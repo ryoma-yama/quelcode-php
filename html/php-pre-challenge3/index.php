@@ -29,20 +29,6 @@ foreach ($record as $records) {
 }
 $limitInt += $limit;
 
-// n個から2個を選ぶ組み合わせとの比較をする
-$length = count($recordInt);
-$arrTest2 = [];
-for ($i = 0; $i < $length - 1; $i++) {
-    for ($j = 1; $j < $length - $i; $j++) {
-        $test = $recordInt[$i] + $recordInt[$i + $j];
-        if ($test === $limitInt) {
-            $arr1 = $recordInt[$i];
-            $arr2 = $recordInt[$i + $j];
-            $arrTest2[] = [$arr1, $arr2];
-        }
-    }
-}
-
 // 組み合わせを取得する関数の定義
 function combinations($array, $chosen)
 {
