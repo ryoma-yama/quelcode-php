@@ -27,7 +27,6 @@ $record = $records->fetchAll(PDO::FETCH_COLUMN, "value");
 foreach ($record as $records) {
     $array[] += $records;
 }
-$limitInt += $limit;
 
 // 組み合わせを取得する関数の定義
 function combinations($array, $chosen)
@@ -55,6 +54,7 @@ function combinations($array, $chosen)
 }
 
 // 全組み合わせを取得する
+$length = count($array);
 for ($i = 1; $i < $length + 1; $i++) {
     $chosen = $i;
     $resultSet[] = combinations($array, $chosen);
