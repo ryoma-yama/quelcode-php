@@ -25,7 +25,7 @@ $record = $records->fetchAll(PDO::FETCH_COLUMN, "value");
 
 // 比較のために要素の型を変換する
 foreach ($record as $records) {
-    $recordInt[] += $records;
+    $array[] += $records;
 }
 $limitInt += $limit;
 
@@ -53,7 +53,7 @@ function combinations($array, $chosen)
     } elseif ($chosen === 1) {
         // 一つを選ぶ場合 
         for ($i = 0; $i < $length; $i++) {
-            $result[$i] = array($array[$i]);
+            $result[$i] = [$array[$i]];
         }
     } else {
         // 一つより多く選ぶ場合
