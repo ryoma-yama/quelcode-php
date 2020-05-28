@@ -64,5 +64,16 @@ for ($i = 0; $i < $length - 1; $i++) {
     $resultSet[0] = array_merge($resultSet[0], $resultSet[$i + 1]);
 }
 
+// getParameterと比較する
+$limit = $_GET['target'];
+$limitInt += $limit;
+$output = [];
+foreach ($resultSet[0] as $subArray) {
+    $subArraySum = array_sum($subArray);
+    if ($limitInt === $subArraySum) {
+        $output[] = $subArray;
+    }
+}
+
 // 結果をjsonで出力する
-echo json_encode($arrTest2);
+echo json_encode($output);
