@@ -47,9 +47,14 @@ for ($i = 0; $i < $length - 1; $i++) {
 function combinations($array, $chosen)
 {
     $length = count($array);
-    // 要素よりも選ぶ数が多い場合
     if ($length < $chosen) {
+        // 要素よりも選ぶ数が多い場合
         return;
+    } elseif ($chosen === 1) {
+        // 一つを選ぶ場合 
+        for ($i = 0; $i < $length; $i++) {
+            $result[$i] = array($array[$i]);
+        }
     }
 }
 
