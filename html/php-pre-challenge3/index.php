@@ -43,5 +43,15 @@ for ($i = 0; $i < $length - 1; $i++) {
     }
 }
 
+// 組み合わせを取得する関数の定義
+function combinations($array, $chosen)
+{
+    $length = count($array);
+    // 要素よりも選ぶ数が多い場合
+    if ($length < $chosen) {
+        return;
+    }
+}
+
 // 結果をjsonで出力する
 echo json_encode($arrTest2);
