@@ -55,7 +55,17 @@ function combinations($array, $chosen)
         for ($i = 0; $i < $length; $i++) {
             $result[$i] = array($array[$i]);
         }
+    } else {
+        // 一つより多く選ぶ場合
+        for ($i = 0; $i < $length - $chosen + 1; $i++) {
+            $parts = combinations(array_slice($array, $i + 1), $chosen - 1);
+            foreach ($parts as $part) {
+                array_unshift($part, $array[$i]);
+                $result[] = $part;
+            }
+        }
     }
+    return $result;
 }
 
 // 結果をjsonで出力する
