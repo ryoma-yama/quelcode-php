@@ -54,5 +54,12 @@ function combinations($array, $chosen)
     return $result;
 }
 
+// 全組み合わせを取得する
+for ($i = 1; $i < $length + 1; $i++) {
+    $chosen = $i;
+    $resultSet[] = combinations($array, $chosen);
+}
+
+
 // 結果をjsonで出力する
 echo json_encode($arrTest2);
