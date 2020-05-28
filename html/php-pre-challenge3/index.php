@@ -22,7 +22,7 @@ try {
 $records = $db->query('SELECT value FROM prechallenge3');
 $record = $records->fetchAll(PDO::FETCH_COLUMN, "value");
 
-// 比較のためにで要素の型を変換する
+// 比較のために要素の型を変換する
 foreach ($record as $records) {
     $recordInt[] += $records;
 }
