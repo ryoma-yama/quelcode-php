@@ -65,7 +65,6 @@ for ($i = 0; $i < $length - 1; $i++) {
 }
 
 // getParameterと比較する
-$limit = $_GET['target'];
 $limitInt += $limit;
 $output = [];
 foreach ($resultSet[0] as $subArray) {
