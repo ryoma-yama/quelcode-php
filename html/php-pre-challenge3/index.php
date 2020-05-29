@@ -66,12 +66,10 @@ for ($i = 0; $i < $length - 1; $i++) {
 }
 
 // getParameterと比較する
-$targetValueInt = 0;
-$targetValueInt += $targetValue;
 $output = [];
 foreach ($combinations[0] as $combination) {
     $subArraySum = array_sum($combination);
-    if ($targetValueInt === $subArraySum) {
+    if ($targetValue == $subArraySum) {
         $output[] = $combination;
     }
 }
