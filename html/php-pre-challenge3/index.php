@@ -1,8 +1,8 @@
 <?php
-$limit = $_GET['target'];
+$targetValue = $_GET['target'];
 
 // getParameterが1以上の整数でないなら400:BadRequestを返す
-if (!ctype_digit($limit) || substr($limit, 0, 1) === '0') {
+if (!ctype_digit($targetValue) || substr($targetValue, 0, 1) === '0') {
     http_response_code(400);
     exit();
 }
@@ -20,33 +20,33 @@ try {
 }
 
 // DBから値を取得する
-$records = $db->query('SELECT value FROM prechallenge3');
-$record = $records->fetchAll(PDO::FETCH_COLUMN, "value");
+$statement = $db->query('SELECT value FROM prechallenge3');
+$records = $statement->fetchAll(PDO::FETCH_COLUMN, "value");
 
 // 比較のために要素の型を変換する
-$array = [];
-foreach ($record as $records) {
-    $array[] += $records;
+$origins = [];
+foreach ($records as $record) {
+    $origins[] += $record;
 }
 
 // 組み合わせを取得する関数の定義
-function combinations($array, $chosen)
+function generateCombinations($origins, $choose)
 {
-    $length = count($array);
-    if ($length < $chosen) {
+    $length = count($origins);
+    if ($length < $choose) {
         // 要素よりも選ぶ数が多い場合
         return;
-    } elseif ($chosen === 1) {
+    } elseif ($choose === 1) {
         // 一つを選ぶ場合 
         for ($i = 0; $i < $length; $i++) {
-            $result[$i] = [$array[$i]];
+            $result[$i] = [$origins[$i]];
         }
     } else {
         // 一つより多く選ぶ場合
-        for ($i = 0; $i < $length - $chosen + 1; $i++) {
-            $parts = combinations(array_slice($array, $i + 1), $chosen - 1);
+        for ($i = 0; $i < $length - $choose + 1; $i++) {
+            $parts = generateCombinations(array_slice($origins, $i + 1), $choose - 1);
             foreach ($parts as $part) {
-                array_unshift($part, $array[$i]);
+                array_unshift($part, $origins[$i]);
                 $result[] = $part;
             }
         }
@@ -55,24 +55,24 @@ function combinations($array, $chosen)
 }
 
 // 全組み合わせを取得する
-$length = count($array);
+$length = count($origins);
 for ($i = 1; $i < $length + 1; $i++) {
-    $chosen = $i;
-    $resultSet[] = combinations($array, $chosen);
+    $choose = $i;
+    $combinations[] = generateCombinations($origins, $choose);
 }
 // 比較のために全組み合わせを一つの配列に統合する
 for ($i = 0; $i < $length - 1; $i++) {
-    $resultSet[0] = array_merge($resultSet[0], $resultSet[$i + 1]);
+    $combinations[0] = array_merge($combinations[0], $combinations[$i + 1]);
 }
 
 // getParameterと比較する
-$limitInt = 0;
-$limitInt += $limit;
+$targetValueInt = 0;
+$targetValueInt += $targetValue;
 $output = [];
-foreach ($resultSet[0] as $subArray) {
-    $subArraySum = array_sum($subArray);
-    if ($limitInt === $subArraySum) {
-        $output[] = $subArray;
+foreach ($combinations[0] as $combination) {
+    $subArraySum = array_sum($combination);
+    if ($targetValueInt === $subArraySum) {
+        $output[] = $combination;
     }
 }
 
