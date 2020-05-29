@@ -2,7 +2,7 @@
 $limit = $_GET['target'];
 
 // getParameterが1以上の整数でないなら400:BadRequestを返す
-if (!ctype_digit($limit) || $limit === '0') {
+if (!ctype_digit($limit) || substr($limit, 0, 1) === '0') {
     http_response_code(400);
     exit();
 }
