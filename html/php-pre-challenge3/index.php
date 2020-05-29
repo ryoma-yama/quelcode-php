@@ -7,13 +7,13 @@ if (!ctype_digit($limit) || substr($limit, 0, 1) === '0') {
     exit();
 }
 
-$dsn = 'mysql:dbname=test;host=mysql';
+$dsn = 'mysql:dbname=test;host=mysql;charset=utf8';
 $dbuser = 'test';
 $dbpassword = 'test';
 
 // DBと接続する
 try {
-    $db = new PDO($dsn . ';charset=utf8', $dbuser, $dbpassword);
+    $db = new PDO($dsn, $dbuser, $dbpassword);
 } catch (PDOException $exception) {
     http_response_code(500);
     exit();
