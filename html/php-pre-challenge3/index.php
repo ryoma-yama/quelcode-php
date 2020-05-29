@@ -68,8 +68,8 @@ for ($i = 0; $i < $length - 1; $i++) {
 // getParameterと比較する
 $output = [];
 foreach ($combinations[0] as $combination) {
-    $subArraySum = array_sum($combination);
-    if ($targetValue == $subArraySum) {
+    $sum = array_sum($combination);
+    if ($targetValue == $sum) {
         $output[] = $combination;
     }
 }
