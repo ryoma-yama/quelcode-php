@@ -24,6 +24,7 @@ $records = $db->query('SELECT value FROM prechallenge3');
 $record = $records->fetchAll(PDO::FETCH_COLUMN, "value");
 
 // 比較のために要素の型を変換する
+$array = [];
 foreach ($record as $records) {
     $array[] += $records;
 }
@@ -65,6 +66,7 @@ for ($i = 0; $i < $length - 1; $i++) {
 }
 
 // getParameterと比較する
+$limitInt = 0;
 $limitInt += $limit;
 $output = [];
 foreach ($resultSet[0] as $subArray) {
