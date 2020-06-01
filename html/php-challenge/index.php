@@ -81,6 +81,7 @@ function makeLink($value)
 	<title>ひとこと掲示板</title>
 
 	<link rel="stylesheet" href="style.css" />
+	<script src="https://kit.fontawesome.com/3cc129bd3b.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
