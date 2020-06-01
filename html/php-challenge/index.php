@@ -130,6 +130,7 @@ function makeLink($value)
 						endif;
 						?>
 					</p>
+					<p class="retweetAndFavorite"><i class="fas fa-retweet"></i><i class="far fa-heart"></i></p>
 				</div>
 			<?php
 			endforeach;
