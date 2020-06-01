@@ -113,22 +113,12 @@ function makeLink($value)
 					<img src="member_picture/<?php echo h($post['picture']); ?>" width="48" height="48" alt="<?php echo h($post['name']); ?>" />
 					<p><?php echo makeLink(h($post['message'])); ?><span class="name">（<?php echo h($post['name']); ?>）</span>[<a href="index.php?res=<?php echo h($post['id']); ?>">Re</a>]</p>
 					<p class="day"><a href="view.php?id=<?php echo h($post['id']); ?>"><?php echo h($post['created']); ?></a>
-						<?php
-						if ($post['reply_post_id'] > 0) :
-						?>
-							<a href="view.php?id=<?php echo
-														h($post['reply_post_id']); ?>">
-								返信元のメッセージ</a>
-						<?php
-						endif;
-						?>
-						<?php
-						if ($_SESSION['id'] == $post['member_id']) :
-						?>
+						<?php if ($post['reply_post_id'] > 0) : ?>
+							<a href="view.php?id=<?php echo h($post['reply_post_id']); ?>">返信元のメッセージ</a>
+						<?php endif; ?>
+						<?php if ($_SESSION['id'] == $post['member_id']) : ?>
 							[<a href="delete.php?id=<?php echo h($post['id']); ?>" style="color: #F33;">削除</a>]
-						<?php
-						endif;
-						?>
+						<?php endif; ?>
 					</p>
 					<p class="retweetAndLike"><i class="fas fa-retweet"></i><i class="far fa-heart"></i></p>
 				</div>
@@ -137,28 +127,16 @@ function makeLink($value)
 			?>
 
 			<ul class="paging">
-				<?php
-				if ($page > 1) {
-				?>
+				<?php if ($page > 1) { ?>
 					<li><a href="index.php?page=<?php print($page - 1); ?>">前のページへ</a></li>
-				<?php
-				} else {
-				?>
+				<?php } else { ?>
 					<li>前のページへ</li>
-				<?php
-				}
-				?>
-				<?php
-				if ($page < $maxPage) {
-				?>
+				<?php } ?>
+				<?php if ($page < $maxPage) { ?>
 					<li><a href="index.php?page=<?php print($page + 1); ?>">次のページへ</a></li>
-				<?php
-				} else {
-				?>
+				<?php } else { ?>
 					<li>次のページへ</li>
-				<?php
-				}
-				?>
+				<?php } ?>
 			</ul>
 		</div>
 	</div>
