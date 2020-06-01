@@ -70,6 +70,7 @@ function makeLink($value)
 {
 	return mb_ereg_replace("(https?)(://[[:alnum:]\+\$\;\?\.%,!#~*/:@&=_-]+)", '<a href="\1\2">\1\2</a>', $value);
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -122,7 +123,12 @@ function makeLink($value)
 					</p>
 					<p class="retweetAndLike">
 						<i class="fas fa-retweet"></i>
-						<a href="like.php?id=<?php echo h($post['id']); ?>"><i class="far fa-heart"></i></a>
+						<?php if ($post['likeFlag']) : ?>
+							<a href="like.php?id=<?php echo h($post['id']); ?>"><i class="fas fa-heart"></i></a>
+						<?php else : ?>
+							<a href="like.php?id=<?php echo h($post['id']); ?>"><i class="far fa-heart"></i></a>
+						<?php endif; ?>
+						<!-- <?php echo $post['likeFlag'] ?> -->
 					</p>
 				</div>
 			<?php
