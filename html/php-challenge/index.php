@@ -128,7 +128,7 @@ function makeLink($value)
 						$isLikes->execute([$_SESSION['id'], $post['id']]);
 						$isLike = $isLikes->fetch();
 						?>
-						<i class="fas fa-retweet"></i>
+						<a href="retweet.php?id=<?php echo h($post['id']); ?>"><i class="fas fa-retweet"></i></a>
 						<?php if ($isLike['isLike'] === '1') : ?>
 							<a href="like.php?id=<?php echo h($post['id']); ?>&option=dis"><i class="fas fa-heart liked"></i></a>
 						<?php else : ?>
