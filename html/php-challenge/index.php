@@ -130,7 +130,7 @@ function makeLink($value)
 						?>
 						<i class="fas fa-retweet"></i>
 						<?php if ($isLike['isLike'] === '1') : ?>
-							<a href="like.php?id=<?php echo h($post['id']); ?>"><i class="fas fa-heart liked"></i></a>
+							<a href="like.php?id=<?php echo h($post['id']); ?>&option=dis"><i class="fas fa-heart liked"></i></a>
 						<?php else : ?>
 							<a href="like.php?id=<?php echo h($post['id']); ?>"><i class="far fa-heart"></i></a>
 						<?php endif; ?>
