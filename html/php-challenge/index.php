@@ -124,11 +124,17 @@ function makeLink($value)
 					<p class="retweetAndLike">
 						<i class="fas fa-retweet"></i>
 						<?php if ($post['likeFlag']) : ?>
-							<a href="like.php?id=<?php echo h($post['id']); ?>"><i class="fas fa-heart"></i></a>
+							<a href="like.php?id=<?php echo h($post['id']); ?>"><i class="fas fa-heart liked"></i></a>
 						<?php else : ?>
 							<a href="like.php?id=<?php echo h($post['id']); ?>"><i class="far fa-heart"></i></a>
 						<?php endif; ?>
-						<!-- <?php echo $post['likeFlag'] ?> -->
+						<?php
+						// いいねの数を取得する
+						$likeCounts = $db->prepare('SELECT COUNT(post_id) AS likeCnt FROM likes WHERE post_id=?');
+						$likeCounts->execute([$post['id']]);
+						$likeCnt = $likeCounts->fetch();
+						echo $likeCnt['likeCnt'];
+						?>
 					</p>
 				</div>
 			<?php
