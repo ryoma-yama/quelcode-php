@@ -9,12 +9,12 @@ if (isset($_SESSION['id'])) {
     // リツイートを取り消す場合
     if ($_REQUEST['option'] === 'dis') {
         // 投稿を検査するための準備
-        $getMessage = $db->prepare('SELECT member_id, retweet_member_id FROM posts WHERE id=?');
+        $getMessage = $db->prepare('SELECT retweet_member_id FROM posts WHERE id=?');
         $getMessage->execute([$id]);
         $message = $getMessage->fetch();
 
         // 投稿が自分のリツイートしたものであれば
-        if ($message['member_id'] === $_SESSION['id'] && $message['retweet_member_id'] !== '0') {
+        if ($message['retweet_member_id'] === $_SESSION['id']) {
             // リツイートを取り消す
             $disRetweet = $db->prepare('DELETE FROM posts WHERE id=?');
             $disRetweet->execute([$id]);
