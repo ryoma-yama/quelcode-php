@@ -132,6 +132,10 @@ function makeLink($value)
 						$isRetweets = $db->prepare('SELECT COUNT(retweet_member_id) AS isRetweet FROM posts WHERE retweet_member_id=? AND id=?');
 						$isRetweets->execute([$_SESSION['id'], $post['id']]);
 						$isRetweet = $isRetweets->fetch();
+						// リツイート元かどうかを判定する際に未定義の場所を参照しないようにする
+						if (is_null($retweetedBy[$post['id']])) {
+							$retweetedBy[$post['id']] = 0;
+						}
 						?>
 						<!-- リツイートした投稿か -->
 						<?php if ($isRetweet['isRetweet'] === '1' || $retweetedBy[$post['id']] === $_SESSION['id']) : ?>
