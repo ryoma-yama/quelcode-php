@@ -12,11 +12,12 @@ if (isset($_SESSION['id'])) {
     $message = $getMessage->fetch();
 
     // 投稿を複製する
-    $retweet = $db->prepare('INSERT INTO posts SET message=?, member_id=?, reply_post_id=?, created=?');
+    $retweet = $db->prepare('INSERT INTO posts SET message=?, member_id=?, reply_post_id=?, retweet_post_id=?, created=?');
     $retweet->execute([
         $message['message'],
         $message['member_id'],
         $message['reply_post_id'],
+        $id,
         $message['created']
     ]);
 }
