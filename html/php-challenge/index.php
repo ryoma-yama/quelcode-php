@@ -129,11 +129,11 @@ function makeLink($value)
 						<!-- リツイートの表示 -->
 						<?php
 						// リツイート済かどうかを判定する
-						$isRetweets = $db->prepare('SELECT COUNT(retweet_member_id) AS $isRetweet FROM posts WHERE retweet_member_id=? AND id=?');
+						$isRetweets = $db->prepare('SELECT COUNT(retweet_member_id) AS isRetweet FROM posts WHERE retweet_member_id=? AND id=?');
 						$isRetweets->execute([$_SESSION['id'], $post['id']]);
 						$isRetweet = $isRetweets->fetch();
 						?>
-						<?php if ($isRetweet['$isRetweet'] === '1') : ?>
+						<?php if ($isRetweet['isRetweet'] === '1') : ?>
 							<a href="retweet.php?id=<?php echo h($post['id']); ?>&option=dis"><i class="fas fa-retweet retweeted"></i></a>
 						<?php else : ?>
 							<a href="retweet.php?id=<?php echo h($post['id']); ?>"><i class="fas fa-retweet"></i></a>
