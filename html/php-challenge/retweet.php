@@ -30,13 +30,19 @@ if (isset($_SESSION['id'])) {
 
     // リツイートする場合
     if ($_REQUEST['option'] === 'on') {
-        // 複製する投稿のDataを取得する
-        $getMessage = $db->prepare('SELECT message, member_id, reply_post_id, retweet_member_id, created FROM posts WHERE id=?');
-        $getMessage->execute([$id]);
-        $message = $getMessage->fetch();
+        // 既にRTしてないかどうかを検査する準備
+        $getMessage = $db->prepare('SELECT id FROM posts WHERE retweet_member_id=? AND retweet_post_id=?');
+        $getMessage->execute([$_SESSION['id'], $id]);
+        $target = $getMessage->fetch();
 
-        if ($message['member_id'] === $_SESSION['id']) {
-            // postsTableになければ, 投稿を複製する
+        // 重複がなければ
+        if (!$target) {
+            // 複製する投稿のDataを取得する
+            $getMessage = $db->prepare('SELECT message, member_id, reply_post_id, retweet_member_id, created FROM posts WHERE id=?');
+            $getMessage->execute([$id]);
+            $message = $getMessage->fetch();
+
+            // 投稿を複製する
             $retweet = $db->prepare('INSERT INTO posts SET message=?, member_id=?, reply_post_id=?, retweet_member_id=?, retweet_post_id=?, created=?');
             $retweet->execute([
                 $message['message'],
