@@ -133,11 +133,14 @@ function makeLink($value)
 						$isRetweets->execute([$_SESSION['id'], $post['id']]);
 						$isRetweet = $isRetweets->fetch();
 						?>
-						<?php if ($isRetweet['isRetweet'] === '1') : ?>
+						<!-- リツイートした投稿か -->
+						<?php if ($isRetweet['isRetweet'] === '1' || $retweetedBy[$post['id']] === $_SESSION['id']) : ?>
 							<a href="retweet.php?id=<?php echo h($post['id']); ?>&option=dis"><i class="fas fa-retweet retweeted"></i></a>
+							<?php $retweetedBy[$post['retweet_post_id']] = $post['retweet_member_id']; ?>
 						<?php else : ?>
 							<a href="retweet.php?id=<?php echo h($post['id']); ?>"><i class="fas fa-retweet"></i></a>
 						<?php endif; ?>
+						<!-- / リツイートした投稿か-->
 						<!-- / リツイートの表示 -->
 
 						<!-- いいねの表示 -->
