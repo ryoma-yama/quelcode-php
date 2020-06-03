@@ -6,30 +6,40 @@ require 'dbconnect.php';
 if (isset($_SESSION['id'])) {
     $id = $_REQUEST['id'];
 
-    // 複製する投稿のDataを取得する
-    $getMessage = $db->prepare('SELECT message, member_id, reply_post_id, retweet_member_id, created FROM posts WHERE id=?');
-    $getMessage->execute([$id]);
-    $message = $getMessage->fetch();
+    // リツイートを取り消す場合
+    if ($_REQUEST['option'] === 'dis') {
+        // 投稿を検査するための準備
+        $getMessage = $db->prepare('SELECT member_id, retweet_member_id FROM posts WHERE id=?');
+        $getMessage->execute([$id]);
+        $message = $getMessage->fetch();
 
-    // postsTableにあって
-    if ($message['member_id'] === $_SESSION['id'] && $message['retweet_member_id'] !== '0') {
-        // urlParameterでdisが渡されていれば
-        if ($_REQUEST['option'] === 'dis') {
+        // 投稿が自分のリツイートしたものであれば
+        if ($message['member_id'] === $_SESSION['id'] && $message['retweet_member_id'] !== '0') {
             // リツイートを取り消す
             $disRetweet = $db->prepare('DELETE FROM posts WHERE id=?');
             $disRetweet->execute([$id]);
         }
-    } else {
-        // postsTableになければ, 投稿を複製する
-        $retweet = $db->prepare('INSERT INTO posts SET message=?, member_id=?, reply_post_id=?, retweet_member_id=?, retweet_post_id=?, created=?');
-        $retweet->execute([
-            $message['message'],
-            $_SESSION['id'],
-            $message['reply_post_id'],
-            $message['member_id'],
-            $id,
-            $message['created']
-        ]);
+    }
+
+    // リツイートする場合
+    if ($_REQUEST['option'] === 'on') {
+        // 複製する投稿のDataを取得する
+        $getMessage = $db->prepare('SELECT message, member_id, reply_post_id, retweet_member_id, created FROM posts WHERE id=?');
+        $getMessage->execute([$id]);
+        $message = $getMessage->fetch();
+
+        if ($message['member_id'] === $_SESSION['id']) {
+            // postsTableになければ, 投稿を複製する
+            $retweet = $db->prepare('INSERT INTO posts SET message=?, member_id=?, reply_post_id=?, retweet_member_id=?, retweet_post_id=?, created=?');
+            $retweet->execute([
+                $message['message'],
+                $_SESSION['id'],
+                $message['reply_post_id'],
+                $message['member_id'],
+                $id,
+                $message['created']
+            ]);
+        }
     }
 }
 
