@@ -19,6 +19,13 @@ if (isset($_SESSION['id'])) {
             $disRetweet = $db->prepare('DELETE FROM posts WHERE id=?');
             $disRetweet->execute([$id]);
         }
+
+        // 自分のリツイートした投稿からリツイートを取り消す
+        $getMessage = $db->prepare('SELECT id FROM posts WHERE retweet_member_id=? AND retweet_post_id=?');
+        $getMessage->execute([$_SESSION['id'], $id]);
+        $target = $getMessage->fetch();
+        $disRetweetFromOrigin = $db->prepare('DELETE FROM posts WHERE id=?');
+        $disRetweetFromOrigin->execute([$target['id']]);
     }
 
     // リツイートする場合
