@@ -46,9 +46,9 @@ if (isset($_SESSION['id'])) {
             $retweet = $db->prepare('INSERT INTO posts SET message=?, member_id=?, reply_post_id=?, retweet_member_id=?, retweet_post_id=?, created=?');
             $retweet->execute([
                 $message['message'],
-                $_SESSION['id'],
-                $message['reply_post_id'],
                 $message['member_id'],
+                $message['reply_post_id'],
+                $_SESSION['id'],
                 $id,
                 $message['created']
             ]);
