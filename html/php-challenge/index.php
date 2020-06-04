@@ -111,9 +111,23 @@ function makeLink($value)
 			foreach ($posts as $post) :
 			?>
 				<div class="msg">
-					<?php if ($post['retweet_post_id'] > 0) : ?>
+					<!-- リツイート済かどうかを判定する -->
+					<?php
+					// リツイート済かどうかを判定する
+					$isRetweets = $db->prepare('SELECT COUNT(retweet_member_id) AS isRetweet FROM posts WHERE retweet_member_id=? AND id=?');
+					$isRetweets->execute([$_SESSION['id'], $post['id']]);
+					$isRetweet = $isRetweets->fetch();
+					// リツイート元かどうかを判定する際に未定義の場所を参照しないようにする
+					if (is_null($retweetedBy[$post['id']])) {
+						$retweetedBy[$post['id']] = 0;
+					}
+					?>
+					<!-- / リツイート済かどうかを判定する -->
+					<!-- リツイートに関するテキスト -->
+					<?php if ($isRetweet['isRetweet'] === '1') : ?>
 						<p class="retweetedSign"><i class="fas fa-retweet margins"></i>リツイート済</p>
 					<?php endif; ?>
+					<!-- / リツイートに関するテキスト -->
 					<img src="member_picture/<?php echo h($post['picture']); ?>" width="48" height="48" alt="<?php echo h($post['name']); ?>" />
 					<p><?php echo makeLink(h($post['message'])); ?><span class="name">（<?php echo h($post['name']); ?>）</span>[<a href="index.php?res=<?php echo h($post['id']); ?>">Re</a>]</p>
 					<p class="day">
@@ -127,24 +141,12 @@ function makeLink($value)
 					</p>
 					<p class="retweetAndLike">
 						<!-- リツイートの表示 -->
-						<?php
-						// リツイート済かどうかを判定する
-						$isRetweets = $db->prepare('SELECT COUNT(retweet_member_id) AS isRetweet FROM posts WHERE retweet_member_id=? AND id=?');
-						$isRetweets->execute([$_SESSION['id'], $post['id']]);
-						$isRetweet = $isRetweets->fetch();
-						// リツイート元かどうかを判定する際に未定義の場所を参照しないようにする
-						if (is_null($retweetedBy[$post['id']])) {
-							$retweetedBy[$post['id']] = 0;
-						}
-						?>
-						<!-- リツイートした投稿か -->
 						<?php if ($isRetweet['isRetweet'] === '1' || $retweetedBy[$post['id']] === $_SESSION['id']) : ?>
 							<a href="retweet.php?id=<?php echo h($post['id']); ?>&option=dis"><i class="fas fa-retweet retweeted"></i></a>
 							<?php $retweetedBy[$post['retweet_post_id']] = $post['retweet_member_id']; ?>
 						<?php else : ?>
 							<a href="retweet.php?id=<?php echo h($post['id']); ?>&option=on"><i class="fas fa-retweet"></i></a>
 						<?php endif; ?>
-						<!-- / リツイートした投稿か-->
 						<!-- / リツイートの表示 -->
 
 						<!-- いいねの表示 -->
