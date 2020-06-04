@@ -114,7 +114,7 @@ function makeLink($value)
 					<!-- リツイート済かどうかを判定する -->
 					<?php
 					// リツイート済かどうかを判定する
-					$whoRetweets = $db->prepare('SELECT m.name, p.retweet_member_id FROM members m, posts p WHERE m.id=p.retweet_member_id AND p.id=?');
+					$whoRetweets = $db->prepare('SELECT m.name, p.retweet_member_id, p.retweet_post_id FROM members m, posts p WHERE m.id=p.retweet_member_id AND p.id=?');
 					$whoRetweets->execute([$post['id']]);
 					$whoRetweet = $whoRetweets->fetch();
 					// リツイート元かどうかを判定する際に未定義の場所を参照しないようにする
@@ -166,8 +166,8 @@ function makeLink($value)
 						<div class="like">
 							<?php
 							// いいね済かどうかを判定する
-							$isLikes = $db->prepare('SELECT COUNT(member_id) AS isLike FROM likes WHERE member_id=? AND post_id=?');
-							$isLikes->execute([$_SESSION['id'], $post['id']]);
+							$isLikes = $db->prepare('SELECT member_id AS isLike FROM likes WHERE member_id=? AND post_id IN (?,?)');
+							$isLikes->execute([$_SESSION['id'], $post['id'], $whoRetweet['retweet_post_id']]);
 							$isLike = $isLikes->fetch();
 							?>
 							<?php if ($isLike['isLike'] === '1') : ?>
