@@ -152,8 +152,8 @@ function makeLink($value)
 							<?php endif; ?>
 							<?php
 							// リツイート数を取得する
-							$retweetCounts = $db->prepare('SELECT COUNT(retweet_post_id) AS retweetCount FROM posts WHERE retweet_post_id=?');
-							$retweetCounts->execute([$post['id']]);
+							$retweetCounts = $db->prepare('SELECT COUNT(retweet_post_id) AS retweetCount FROM posts WHERE retweet_post_id IN (?,?) AND retweet_post_id > 0');
+							$retweetCounts->execute([$post['retweet_post_id'], $post['id']]);
 							$retweetCount = $retweetCounts->fetch();
 							if ($retweetCount['retweetCount'] !== '0') {
 								echo '<span class="count-retweeted">' . $retweetCount['retweetCount'] . '</span>';
