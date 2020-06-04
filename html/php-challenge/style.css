@@ -287,19 +287,22 @@ li {
 
 .retweetAndLike {
   display: flex;
-  height: 30px;
-  text-align: center;
-  vertical-align: baseline;
+  justify-content: space-between;
+  width: 125px;
 }
 
+.retweet,
+.like {
+  display: flex;
+  width: 50px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.retweetAndLike,
 .fa-retweet,
 .fa-heart {
   color: #666;
-  margin-right: 10px;
-}
-
-.fa-heart {
-  margin-left: 30px;
 }
 
 .button-retweet,

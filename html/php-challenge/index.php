@@ -141,45 +141,53 @@ function makeLink($value)
 							[<a href="delete.php?id=<?php echo h($post['id']); ?>" style="color: #F33;">削除</a>]
 						<?php endif; ?>
 					</p>
-					<p class="retweetAndLike">
+					<div class="retweetAndLike">
 						<!-- リツイートの表示 -->
-						<?php if ($whoRetweet['retweet_member_id'] === $_SESSION['id'] || $retweetedBy[$post['id']] === $_SESSION['id']) : ?>
-							<a href="retweet.php?id=<?php echo h($post['id']); ?>&option=dis"><i class="fas fa-retweet button-retweeted"></i></a>
-							<?php $retweetedBy[$post['retweet_post_id']] = $post['retweet_member_id']; ?>
-						<?php else : ?>
-							<a href="retweet.php?id=<?php echo h($post['id']); ?>&option=on"><i class="fas fa-retweet button-retweet"></i></a>
-						<?php endif; ?>
-						<?php
-						// リツイート数を取得する
-						$retweetCounts = $db->prepare('SELECT COUNT(retweet_post_id) AS retweetCount FROM posts WHERE retweet_post_id=?');
-						$retweetCounts->execute([$post['id']]);
-						$retweetCount = $retweetCounts->fetch();
-						echo $retweetCount['retweetCount'];
-						?>
+						<div class="retweet">
+							<?php if ($whoRetweet['retweet_member_id'] === $_SESSION['id'] || $retweetedBy[$post['id']] === $_SESSION['id']) : ?>
+								<a href="retweet.php?id=<?php echo h($post['id']); ?>&option=dis"><i class="fas fa-retweet button-retweeted"></i></a>
+								<?php $retweetedBy[$post['retweet_post_id']] = $post['retweet_member_id']; ?>
+							<?php else : ?>
+								<a href="retweet.php?id=<?php echo h($post['id']); ?>&option=on"><i class="fas fa-retweet button-retweet"></i></a>
+							<?php endif; ?>
+							<?php
+							// リツイート数を取得する
+							$retweetCounts = $db->prepare('SELECT COUNT(retweet_post_id) AS retweetCount FROM posts WHERE retweet_post_id=?');
+							$retweetCounts->execute([$post['id']]);
+							$retweetCount = $retweetCounts->fetch();
+							if ($retweetCount['retweetCount'] !== '0') {
+								echo '<span class="count-retweeted">' . $retweetCount['retweetCount'] . '</span>';
+							}
+							?>
+						</div>
 						<!-- / リツイートの表示 -->
 
 						<!-- いいねの表示 -->
-						<?php
-						// いいね済かどうかを判定する
-						$isLikes = $db->prepare('SELECT COUNT(member_id) AS isLike FROM likes WHERE member_id=? AND post_id=?');
-						$isLikes->execute([$_SESSION['id'], $post['id']]);
-						$isLike = $isLikes->fetch();
-						?>
-						<?php if ($isLike['isLike'] === '1') : ?>
-							<a href="like.php?id=<?php echo h($post['id']); ?>&option=dis"><i class="fas fa-heart button-liked"></i></a>
-						<?php else : ?>
-							<a href="like.php?id=<?php echo h($post['id']); ?>"><i class="far fa-heart button-like"></i></a>
-						<?php endif; ?>
-						<?php
-						// いいねの数を取得する
-						// 参考先のサイト: https://stackoverflow.com/questions/17371639/how-to-store-arrays-in-mysql
-						$likeCounts = $db->prepare('SELECT COUNT(post_id) AS likeCnt FROM likes WHERE post_id=?');
-						$likeCounts->execute([$post['id']]);
-						$likeCnt = $likeCounts->fetch();
-						echo $likeCnt['likeCnt'];
-						?>
+						<div class="like">
+							<?php
+							// いいね済かどうかを判定する
+							$isLikes = $db->prepare('SELECT COUNT(member_id) AS isLike FROM likes WHERE member_id=? AND post_id=?');
+							$isLikes->execute([$_SESSION['id'], $post['id']]);
+							$isLike = $isLikes->fetch();
+							?>
+							<?php if ($isLike['isLike'] === '1') : ?>
+								<a href="like.php?id=<?php echo h($post['id']); ?>&option=dis"><i class="fas fa-heart button-liked"></i></a>
+							<?php else : ?>
+								<a href="like.php?id=<?php echo h($post['id']); ?>"><i class="far fa-heart button-like"></i></a>
+							<?php endif; ?>
+							<?php
+							// いいねの数を取得する
+							// 参考先のサイト: https://stackoverflow.com/questions/17371639/how-to-store-arrays-in-mysql
+							$likeCounts = $db->prepare('SELECT COUNT(post_id) AS likeCnt FROM likes WHERE post_id=?');
+							$likeCounts->execute([$post['id']]);
+							$likeCnt = $likeCounts->fetch();
+							if ($likeCnt['likeCnt'] !== '0') {
+								echo '<span class="count-liked">' . $likeCnt['likeCnt'] . '</span>';
+							}
+							?>
+						</div>
 						<!-- / いいねの表示 -->
-					</p>
+					</div>
 				</div>
 			<?php
 			endforeach;
