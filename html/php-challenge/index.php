@@ -114,8 +114,8 @@ function makeLink($value)
 					<!-- リツイート済かどうかを判定する -->
 					<?php
 					// リツイート済かどうかを判定する
-					$isRetweets = $db->prepare('SELECT COUNT(retweet_member_id) AS isRetweet FROM posts WHERE retweet_member_id=? AND id=?');
-					$isRetweets->execute([$_SESSION['id'], $post['id']]);
+					$isRetweets = $db->prepare('SELECT retweet_member_id FROM posts WHERE id=?');
+					$isRetweets->execute([$post['id']]);
 					$isRetweet = $isRetweets->fetch();
 					// リツイート元かどうかを判定する際に未定義の場所を参照しないようにする
 					if (is_null($retweetedBy[$post['id']])) {
@@ -124,7 +124,7 @@ function makeLink($value)
 					?>
 					<!-- / リツイート済かどうかを判定する -->
 					<!-- リツイートに関するテキスト -->
-					<?php if ($isRetweet['isRetweet'] === '1') : ?>
+					<?php if ($isRetweet['retweet_member_id'] === $_SESSION['id']) : ?>
 						<p class="retweetedSign"><i class="fas fa-retweet margins"></i>リツイート済</p>
 					<?php endif; ?>
 					<!-- / リツイートに関するテキスト -->
@@ -141,7 +141,7 @@ function makeLink($value)
 					</p>
 					<p class="retweetAndLike">
 						<!-- リツイートの表示 -->
-						<?php if ($isRetweet['isRetweet'] === '1' || $retweetedBy[$post['id']] === $_SESSION['id']) : ?>
+						<?php if ($isRetweet['retweet_member_id'] === $_SESSION['id'] || $retweetedBy[$post['id']] === $_SESSION['id']) : ?>
 							<a href="retweet.php?id=<?php echo h($post['id']); ?>&option=dis"><i class="fas fa-retweet retweeted"></i></a>
 							<?php $retweetedBy[$post['retweet_post_id']] = $post['retweet_member_id']; ?>
 						<?php else : ?>
