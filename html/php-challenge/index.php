@@ -125,9 +125,9 @@ function makeLink($value)
 					<!-- / リツイート済かどうかを判定する -->
 					<!-- リツイートに関するテキスト -->
 					<?php if ($whoRetweet['retweet_member_id'] === $_SESSION['id']) : ?>
-						<p class="retweetedSign"><i class="fas fa-retweet margins"></i>リツイート済</p>
+						<p class="retweetedSign"><i class="fas fa-retweet my-retweet"></i>リツイート済</p>
 					<?php elseif ($whoRetweet['retweet_member_id'] > 0) : ?>
-						<p class="retweetedSign"><i class="fas fa-retweet margins-others"></i><?php echo h($whoRetweet['name']); ?>さんがリツイート</p>
+						<p class="retweetedSign"><i class="fas fa-retweet others-retweet"></i><?php echo h($whoRetweet['name']); ?>さんがリツイート</p>
 					<?php endif; ?>
 					<!-- / リツイートに関するテキスト -->
 					<img src="member_picture/<?php echo h($post['picture']); ?>" width="48" height="48" alt="<?php echo h($post['name']); ?>" />
@@ -144,10 +144,10 @@ function makeLink($value)
 					<p class="retweetAndLike">
 						<!-- リツイートの表示 -->
 						<?php if ($whoRetweet['retweet_member_id'] === $_SESSION['id'] || $retweetedBy[$post['id']] === $_SESSION['id']) : ?>
-							<a href="retweet.php?id=<?php echo h($post['id']); ?>&option=dis"><i class="fas fa-retweet retweeted"></i></a>
+							<a href="retweet.php?id=<?php echo h($post['id']); ?>&option=dis"><i class="fas fa-retweet button-retweeted"></i></a>
 							<?php $retweetedBy[$post['retweet_post_id']] = $post['retweet_member_id']; ?>
 						<?php else : ?>
-							<a href="retweet.php?id=<?php echo h($post['id']); ?>&option=on"><i class="fas fa-retweet"></i></a>
+							<a href="retweet.php?id=<?php echo h($post['id']); ?>&option=on"><i class="fas fa-retweet button-retweet"></i></a>
 						<?php endif; ?>
 						<?php
 						// リツイート数を取得する
@@ -166,9 +166,9 @@ function makeLink($value)
 						$isLike = $isLikes->fetch();
 						?>
 						<?php if ($isLike['isLike'] === '1') : ?>
-							<a href="like.php?id=<?php echo h($post['id']); ?>&option=dis"><i class="fas fa-heart liked"></i></a>
+							<a href="like.php?id=<?php echo h($post['id']); ?>&option=dis"><i class="fas fa-heart button-liked"></i></a>
 						<?php else : ?>
-							<a href="like.php?id=<?php echo h($post['id']); ?>"><i class="far fa-heart"></i></a>
+							<a href="like.php?id=<?php echo h($post['id']); ?>"><i class="far fa-heart button-like"></i></a>
 						<?php endif; ?>
 						<?php
 						// いいねの数を取得する

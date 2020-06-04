@@ -271,3 +271,65 @@ li {
   font-size: 80%;
   color: #999;
 }
+
+.retweetedSign {
+  font-size: 75%;
+  color: #666;
+}
+
+.my-retweet {
+  margin: 0 5.75px 0 24.25px;
+}
+
+.others-retweet {
+  margin: 0 10px 0 24.25px;
+}
+
+.retweetAndLike {
+  display: flex;
+  height: 30px;
+  text-align: center;
+  vertical-align: baseline;
+}
+
+.fa-retweet,
+.fa-heart {
+  color: #666;
+  margin-right: 10px;
+}
+
+.fa-heart {
+  margin-left: 30px;
+}
+
+.button-retweet,
+.button-retweeted {
+  padding: 5px;
+}
+
+.button-retweet:hover,
+.button-retweeted {
+  color: green;
+}
+
+.button-retweet:hover,
+.button-retweeted:hover {
+  background-color: #ccffcc;
+  border-radius: 50%;
+}
+
+.button-like,
+.button-liked {
+  padding: 5px;
+}
+
+.button-like:hover,
+.button-liked {
+  color: red;
+}
+
+.button-like:hover,
+.button-liked:hover {
+  background-color: mistyrose;
+  border-radius: 50%;
+}
