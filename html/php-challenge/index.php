@@ -149,6 +149,13 @@ function makeLink($value)
 						<?php else : ?>
 							<a href="retweet.php?id=<?php echo h($post['id']); ?>&option=on"><i class="fas fa-retweet"></i></a>
 						<?php endif; ?>
+						<?php
+						// リツイート数を取得する
+						$retweetCounts = $db->prepare('SELECT COUNT(retweet_post_id) AS retweetCount FROM posts WHERE retweet_post_id=?');
+						$retweetCounts->execute([$post['id']]);
+						$retweetCount = $retweetCounts->fetch();
+						echo $retweetCount['retweetCount'];
+						?>
 						<!-- / リツイートの表示 -->
 
 						<!-- いいねの表示 -->
