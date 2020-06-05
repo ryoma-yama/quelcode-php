@@ -166,11 +166,11 @@ function makeLink($value)
 						<div class="like">
 							<?php
 							// いいね済かどうかを判定する
-							$isLikes = $db->prepare('SELECT member_id AS isLike FROM likes WHERE member_id=? AND post_id IN (?,?)');
-							$isLikes->execute([$_SESSION['id'], $post['id'], $whoRetweet['retweet_post_id']]);
+							$isLikes = $db->prepare('SELECT l.member_id AS like_member_id FROM `posts` p, `likes` l WHERE p.id=l.post_id AND p.retweet_post_id=?');
+							$isLikes->execute([$post['retweet_post_id']]);
 							$isLike = $isLikes->fetch();
 							?>
-							<?php if ($isLike['isLike'] === '1') : ?>
+							<?php if ($isLike['like_member_id'] === $_SESSION['id']) : ?>
 								<a href="like.php?id=<?php echo h($post['id']); ?>&option=dis"><i class="fas fa-heart button-liked"></i></a>
 							<?php else : ?>
 								<a href="like.php?id=<?php echo h($post['id']); ?>"><i class="far fa-heart button-like"></i></a>
