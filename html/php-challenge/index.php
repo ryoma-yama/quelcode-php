@@ -178,7 +178,7 @@ function makeLink($value)
 							<?php
 							// いいねの数を取得する
 							// 参考先のサイト: https://stackoverflow.com/questions/17371639/how-to-store-arrays-in-mysql
-							$likeCounts = $db->prepare('SELECT COUNT(l.post_id) AS likeCount FROM likes l, posts p WHERE l.post_id=p.id AND l.post_id IN (?,?)');
+							$likeCounts = $db->prepare('SELECT COUNT(l.member_id) AS likeCount FROM `posts` p, `likes` l WHERE p.id=l.post_id AND p.retweet_post_id IN (?,?)');
 							$likeCounts->execute([$post['retweet_post_id'], $post['id']]);
 							$likeCount = $likeCounts->fetch();
 							if ($likeCount['likeCount'] !== '0') {
