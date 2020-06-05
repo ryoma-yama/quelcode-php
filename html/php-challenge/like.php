@@ -7,12 +7,12 @@ if (isset($_SESSION['id'])) {
     $id = $_REQUEST['id'];
 
     // 投稿を検査するための準備
-    $messages = $db->prepare('SELECT * FROM likes WHERE member_Id=? AND post_id=?');
+    $messages = $db->prepare('SELECT * FROM likes WHERE member_id=? AND post_id=?');
     $messages->execute([$_SESSION['id'], $id]);
     $message = $messages->fetch();
 
     // いいねtableにあって
-    if ($message['member_Id'] === $_SESSION['id']) {
+    if ($message['member_id'] === $_SESSION['id']) {
         // urlParameterでdisが渡されていれば
         if ($_REQUEST['option'] === 'dis') {
             // よくないねをする
