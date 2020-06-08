@@ -141,11 +141,11 @@ function makeLink($value)
 						<!-- リツイートの表示 -->
 						<div class="retweet">
 							<?php
-							$isRetweets = $db->prepare('SELECT member_id FROM posts WHERE retweet_post_id IN(?,?) AND retweet_member_id=?');
-							$isRetweets->execute([$post['retweet_post_id'], $post['id'], $_SESSION['id']]);
+							$isRetweets = $db->prepare('SELECT o.retweet_member_id FROM posts p, posts o WHERE p.id=o.retweet_post_id AND (p.id=? OR p.retweet_post_id=? OR o.id=? OR o.retweet_post_id=?) AND o.retweet_member_id=?');
+							$isRetweets->execute([$post['id'], $post['id'], $post['id'], $post['retweet_post_id'],  $_SESSION['id']]);
 							$isRetweet = $isRetweets->fetch();
 							?>
-							<?php if ($isRetweet['member_id'] === $_SESSION['id']) : ?>
+							<?php if ($isRetweet['retweet_member_id'] === $_SESSION['id']) : ?>
 								<a href="retweet.php?id=<?php echo h($post['id']); ?>&option=dis"><i class="fas fa-retweet button-retweeted"></i></a>
 							<?php else : ?>
 								<a href="retweet.php?id=<?php echo h($post['id']); ?>&option=on"><i class="fas fa-retweet button-retweet"></i></a>
