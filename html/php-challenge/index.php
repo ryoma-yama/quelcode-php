@@ -141,6 +141,7 @@ function makeLink($value)
 						<!-- リツイートの表示 -->
 						<div class="retweet">
 							<?php
+							// 自己結合の参考先のサイト: https://www.dbonline.jp/mysql/join/index5.html
 							$isRetweets = $db->prepare('SELECT o.retweet_member_id FROM posts p, posts o WHERE p.id=o.retweet_post_id AND (p.id=? OR p.retweet_post_id=? OR o.id=? OR o.retweet_post_id=?) AND o.retweet_member_id=?');
 							$isRetweets->execute([$post['id'], $post['id'], $post['id'], $post['retweet_post_id'],  $_SESSION['id']]);
 							$isRetweet = $isRetweets->fetch();
