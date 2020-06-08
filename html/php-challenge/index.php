@@ -111,10 +111,10 @@ function makeLink($value)
 			foreach ($posts as $post) :
 			?>
 				<div class="msg">
-					<!-- リツイート済かどうかを判定する -->
+					<!-- リツイートをした人の表示 -->
 					<?php
-					// リツイート済かどうかを判定する
-					$whoRetweets = $db->prepare('SELECT m.name, p.retweet_member_id, p.retweet_post_id FROM members m, posts p WHERE m.id=p.retweet_member_id AND p.id=?');
+					// リツイートをした人が誰かを取得する
+					$whoRetweets = $db->prepare('SELECT m.name FROM members m, posts p WHERE m.id=p.retweet_member_id AND p.id=?');
 					$whoRetweets->execute([$post['id']]);
 					$whoRetweet = $whoRetweets->fetch();
 					// リツイート元かどうかを判定する際に未定義の場所を参照しないようにする
@@ -122,14 +122,13 @@ function makeLink($value)
 						$retweetedBy[$post['id']] = 0;
 					}
 					?>
-					<!-- / リツイート済かどうかを判定する -->
-					<!-- リツイートに関するテキスト -->
-					<?php if ($whoRetweet['retweet_member_id'] === $_SESSION['id']) : ?>
+					<?php if ($post['retweet_member_id'] === $_SESSION['id']) : ?>
 						<p class="retweetedSign"><i class="fas fa-retweet my-retweet"></i>リツイート済</p>
-					<?php elseif ($whoRetweet['retweet_member_id'] > 0) : ?>
+					<?php elseif ($post['retweet_member_id'] > 0) : ?>
 						<p class="retweetedSign"><i class="fas fa-retweet others-retweet"></i><?php echo h($whoRetweet['name']); ?>さんがリツイート</p>
 					<?php endif; ?>
-					<!-- / リツイートに関するテキスト -->
+					<!-- / リツイートをした人の表示 -->
+
 					<img src="member_picture/<?php echo h($post['picture']); ?>" width="48" height="48" alt="<?php echo h($post['name']); ?>" />
 					<p><?php echo makeLink(h($post['message'])); ?><span class="name">（<?php echo h($post['name']); ?>）</span>[<a href="index.php?res=<?php echo h($post['id']); ?>">Re</a>]</p>
 					<p class="day">
@@ -141,10 +140,11 @@ function makeLink($value)
 							[<a href="delete.php?id=<?php echo h($post['id']); ?>" style="color: #F33;">削除</a>]
 						<?php endif; ?>
 					</p>
+
 					<div class="retweetAndLike">
 						<!-- リツイートの表示 -->
 						<div class="retweet">
-							<?php if ($whoRetweet['retweet_member_id'] === $_SESSION['id'] || $retweetedBy[$post['id']] === $_SESSION['id']) : ?>
+							<?php if ($post['retweet_member_id'] === $_SESSION['id'] || $retweetedBy[$post['id']] === $_SESSION['id']) : ?>
 								<a href="retweet.php?id=<?php echo h($post['id']); ?>&option=dis"><i class="fas fa-retweet button-retweeted"></i></a>
 								<?php $retweetedBy[$post['retweet_post_id']] = $post['retweet_member_id']; ?>
 							<?php else : ?>
