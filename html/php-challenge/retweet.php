@@ -9,7 +9,7 @@ if (isset($_SESSION['id'])) {
     // リツイートを取り消す場合
     if ($_REQUEST['option'] === 'dis') {
         // 投稿を検査するための準備
-        $getMessage = $db->prepare('SELECT retweet_member_id FROM posts WHERE id=?');
+        $getMessage = $db->prepare('SELECT retweet_member_id, retweet_post_id FROM posts WHERE id=?');
         $getMessage->execute([$id]);
         $message = $getMessage->fetch();
 
@@ -20,9 +20,9 @@ if (isset($_SESSION['id'])) {
             $disRetweet->execute([$id]);
         }
 
-        // 自分のリツイートした投稿からリツイートを取り消す
-        $getMessage = $db->prepare('SELECT id FROM posts WHERE retweet_member_id=? AND retweet_post_id=?');
-        $getMessage->execute([$_SESSION['id'], $id]);
+        // 自分以外のリツイートから自分のリツイートを取り消す
+        $getMessage = $db->prepare('SELECT id FROM posts WHERE retweet_member_id=? AND retweet_post_id IN(?,?)');
+        $getMessage->execute([$_SESSION['id'], $id, $message['retweet_post_id']]);
         $target = $getMessage->fetch();
         $disRetweetFromOrigin = $db->prepare('DELETE FROM posts WHERE id=?');
         $disRetweetFromOrigin->execute([$target['id']]);
